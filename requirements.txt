@@ -1,0 +1,4 @@
+requests
+collorama
+BeautifulSoup4
+art
