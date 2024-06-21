@@ -1,32 +1,54 @@
 from bs4 import BeautifulSoup
 import requests
-import sys 
+from colorama import Fore, Style
+import art
+import urllib3
+import argparse
 
-from pyfiglet import Figlet
 
-class couleur:
-		  	OK = '\033[91m' 
-		  	ba= '\033[92m' 
-		  		
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-figlet = Figlet(font='slant')
-result = figlet.renderText("Ys jhonson")
-dak= figlet.renderText("Le wana")
 
-print(couleur.OK+result)
-print(couleur.ba+dak)
 
-print('\033[92m', 'crawl URL[+]\n')
-try :
-	ab = sys.argv[1]
-	req = requests.get(ab)
-	b = req.text
-	soup = BeautifulSoup(b, 'html.parser')
-	for link in soup.find_all('a'):
-	   b= link.get('href')
-	   if '=' in str(b) :
-	   	bak = b
-	   	if 'http' in bak :
-	   		print('\033[92m' ,bak)
-except :
-	print('python program.py target.com')
+def color():
+     text = art.text2art("Find Parameter", font="blg")
+     print(Fore.GREEN + Style.BRIGHT +text+'\nCoded by Jhonson\n'+ Style.RESET_ALL)
+
+color()
+
+
+def main(urls, balise1,protocol,condition):
+   try:    
+     for url in urls:
+       req = requests.get(url,verify=False)
+       soup = BeautifulSoup(req.text, 'html.parser')
+      
+       param1 = [link.get('href') for link in soup.find_all(balise1)]
+       liste = list(dict.fromkeys(param1))
+       
+       for i in liste:
+         if '=' in i and not 'http' in i:
+          supp=str(req.url+i).replace('//','/')
+          print(Fore.YELLOW + Style.BRIGHT +supp+ Style.RESET_ALL)
+
+         
+           
+   except requests.exceptions.MissingSchema: 
+        print('')
+               
+   
+if __name__=='__main__':
+
+     parser = argparse.ArgumentParser(description="Find parameter")
+     parser.add_argument("-file", "--file", dest="file", help="list urls", required=False)
+     args = parser.parse_args()
+     
+     
+     
+     with open(args.file,'r') as file:
+      files=[list.strip() for list in file]
+      for i in files:
+         ifelse=['=','http',i]
+
+     main(files,'a','http',ifelse)
+
