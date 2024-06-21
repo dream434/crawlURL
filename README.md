@@ -7,8 +7,12 @@
 <code> pip install -r requirements.text </code>
 
 # Usage 🚀
-<code> python3 crawurl.py -file urls.txt </code>
+<code> python3 finder.py -file urls.txt </code>
 
 # Info  🔍
 
-This tool helps you find the settings available on pages
+
+<code> This tool helps you find the settings available on pages </code>
+
+
+
